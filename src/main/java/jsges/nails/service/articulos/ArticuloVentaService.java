@@ -10,7 +10,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -34,7 +33,7 @@ public class ArticuloVentaService implements IArticuloVentaService{
     }
 
     @Override
-    public ArticuloVenta buscarPorId(Integer id) {
+    public ArticuloVenta buscarPorId(long id) {
         return modelRepository.findById(id).orElse(null);
     }
 
@@ -49,7 +48,7 @@ public class ArticuloVentaService implements IArticuloVentaService{
 
 
     @Override
-    public void eliminar(int id) {
+    public void eliminar(long id) {
         ArticuloVenta model = modelRepository.findById(id).orElse(null);
         model.asEliminado();
         modelRepository.save(model);
@@ -77,7 +76,7 @@ public class ArticuloVentaService implements IArticuloVentaService{
     }
 
     @Override
-    public ArticuloVentaDTO actualizar(int id, ArticuloVentaDTO dto) {
+    public ArticuloVentaDTO actualizar(long id, ArticuloVentaDTO dto) {
         ArticuloVenta model = modelRepository.findById(id).orElse(null);
         model.setDenominacion(dto.getDenominacion());
         model.setLinea(lineaService.buscarPorId(dto.getLinea_id()));

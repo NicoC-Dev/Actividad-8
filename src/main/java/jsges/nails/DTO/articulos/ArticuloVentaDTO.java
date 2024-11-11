@@ -7,9 +7,12 @@ import lombok.Data;
 @Data
 public class ArticuloVentaDTO  {
 
-    public Integer id;
-    public String denominacion;
-    public int linea_id;
+
+    private long id;
+
+    private String denominacion;
+
+    private long linea_id;
 
     
 }

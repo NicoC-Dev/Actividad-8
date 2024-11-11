@@ -3,9 +3,8 @@ package jsges.nails.service.articulos;
 import jsges.nails.DTO.articulos.LineaDTO;
 import jsges.nails.Mapper.LineaMapper;
 import jsges.nails.domain.articulos.Linea;
+import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
 import jsges.nails.repository.articulos.LineaRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -26,15 +25,13 @@ public class LineaService implements ILineaService {
     @Autowired
     private LineaMapper mapper;
 
-    private static final Logger logger = LoggerFactory.getLogger(LineaService.class);
-
     @Override
     public List<Linea> listar() {
         return modelRepository.buscarNoEliminados();
     }
 
     @Override
-    public Linea buscarPorId(Integer id) {
+    public Linea buscarPorId(long id) {
         return modelRepository.findById(id).orElse(null);
     }
 
@@ -71,8 +68,8 @@ public class LineaService implements ILineaService {
 
     @Override
     public Linea newModel(LineaDTO modelDTO) {
-        Linea model = mapper.toEntity(modelDTO);
-        return guardar(model);
+        return modelRepository.save(mapper.toEntity(modelDTO));
+        
     }
 
     // Métodos adicionales
@@ -89,19 +86,23 @@ public class LineaService implements ILineaService {
     }
 
     @Override
-    public void marcarComoEliminado(Linea model) {
+    public void marcarComoEliminado(long id) {
+        Linea model = modelRepository.findById(id).orElse(null);
+        if(model == null) {
+            throw new RecursoNoEncontradoExcepcion("No se encontro el id: " + id);
+        }
         model.asEliminado();
-        guardar(model);
+        modelRepository.save(model);
     }
 
     @Override
-    public LineaDTO buscarDTOPorId(Integer id) {
+    public LineaDTO buscarDTOPorId(long id) {
         Linea linea = buscarPorId(id);
         return linea != null ? mapper.toDto(linea) : null;
     }
 
     @Override
-    public Linea actualizarLinea(Integer id, LineaDTO modelRecibido) {
+    public Linea actualizarLinea(long id, LineaDTO modelRecibido) {
         Linea model = buscarPorId(id);
         if (model != null) {
             model.setDenominacion(modelRecibido.getDenominacion());

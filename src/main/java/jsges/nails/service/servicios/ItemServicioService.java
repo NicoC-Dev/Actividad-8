@@ -1,11 +1,9 @@
 package jsges.nails.service.servicios;
 
 import jsges.nails.domain.servicios.ItemServicio;
-import jsges.nails.domain.servicios.Servicio;
+
 import jsges.nails.repository.servicios.ItemServicioRepository;
-import jsges.nails.repository.servicios.ServicioRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,19 +19,17 @@ public class ItemServicioService implements IItemServicioService {
 
     @Autowired
     private ItemServicioRepository modelRepository;
-    private final Logger log = LoggerFactory.getLogger(ItemServicioService.class);
 
     @Override
     public List<ItemServicio> listar() {
-        System.out.println("2"); // Debug: Verificar el contenido
-        List<ItemServicio> items = modelRepository.findAll();
-        System.out.println("Items desde el repositorio: " + items); // Debug: Verificar el contenido
-        return items;
+        return modelRepository.findAll();
+        
     }
 
     @Override
     public ItemServicio buscarPorId(Integer id) {
-        return null;
+        return modelRepository.findById(id).orElse(null);
+        
     }
 
     @Override
@@ -54,5 +50,5 @@ public class ItemServicioService implements IItemServicioService {
     public List<ItemServicio> buscarPorServicio(Integer idServicio){
 
         return modelRepository.buscarPorServicio(idServicio);
-    };
+    }
 }

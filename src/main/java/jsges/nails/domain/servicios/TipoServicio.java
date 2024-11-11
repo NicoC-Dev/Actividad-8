@@ -1,17 +1,42 @@
 package jsges.nails.domain.servicios;
 
+
+
 import jakarta.persistence.*;
-import jsges.nails.domain.TipoObjeto;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Setter;
 
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Data
-@ToString
-public class TipoServicio extends TipoObjeto {
+@Table
+public class TipoServicio {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Column
+    private int codigo;
+
+    @Column
+    private String denominacion;
+
+    @Column
+    private String detalle;
+
+    @Column
+    private int estado;
+
+    
+    public void asEliminado() {
+        this.setEstado(1);
+    }
 
 
 }

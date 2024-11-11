@@ -2,42 +2,50 @@ package jsges.nails.domain.organizacion;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Setter;
 
 
-import java.io.Serializable;
+
 import java.util.Date;
 
-@Entity
-@Data
-@NoArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
-@ToString
-public class Cliente implements Serializable {
+@NoArgsConstructor
+@Entity
+@Table
+public class Cliente {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Integer id;
+        private long id;
 
-        @Column(columnDefinition = "TEXT")
+        @Column
+        private String razonSocial;
 
-        String razonSocial;
-        int estado;
+        @Column
+        private int estado;
 
-        @Column(columnDefinition = "TEXT")
-        String letra;
+        @Column
+        private String letra;
 
-        @Column(columnDefinition = "TEXT")
-        String contacto;
+        @Column
+        private String contacto;
 
-        @Column(columnDefinition = "TEXT")
-        String celular;
-        @Column(columnDefinition = "TEXT")
-        String mail;
+        @Column
+        private String celular;
+        
+        @Column
+        private String mail;
 
-        Date fechaInicio;
-        Date fechaNacimiento;
+        @Column
+        private Date fechaInicio;
 
+        @Column
+        private Date fechaNacimiento;
 
+        public void asEliminado() {
+                this.setEstado(1);
+        }
 }

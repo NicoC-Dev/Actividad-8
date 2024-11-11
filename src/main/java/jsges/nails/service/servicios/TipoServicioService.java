@@ -1,9 +1,10 @@
 package jsges.nails.service.servicios;
 import jsges.nails.DTO.servicios.TipoServicioDTO;
+import jsges.nails.Mapper.TipoServicioMapper;
 import jsges.nails.domain.servicios.TipoServicio;
+import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
 import jsges.nails.repository.servicios.TipoServicioRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -19,7 +20,10 @@ public class TipoServicioService implements ITipoServicioService {
 
     @Autowired
     private TipoServicioRepository modelRepository;
-    private static final Logger logger = LoggerFactory.getLogger(TipoServicioService.class);
+
+
+    @Autowired
+    private TipoServicioMapper mapper;
 
     @Override
     public List<TipoServicio> listar() {
@@ -27,11 +31,15 @@ public class TipoServicioService implements ITipoServicioService {
     }
 
     @Override
-    public TipoServicio buscarPorId(Integer id) {
-        return modelRepository.findById(id).orElse(null);
+    public TipoServicio buscarPorId(int id) {
+        TipoServicio tipoServicio = modelRepository.findById(id).orElse(null);
+        if(tipoServicio == null){
+            throw new RecursoNoEncontradoExcepcion("No se encontro el id: " + id);
+        }   
+
+        return tipoServicio;
+
     }
-
-
 
     @Override
     public TipoServicio guardar(TipoServicio model) {
@@ -41,8 +49,7 @@ public class TipoServicioService implements ITipoServicioService {
 
     @Override
     public TipoServicio newModel(TipoServicioDTO modelDTO) {
-        TipoServicio model =  new TipoServicio();
-        model.setDenominacion(modelDTO.denominacion);
+        TipoServicio model = mapper.toEntity(modelDTO);
         return guardar(model);
     }
 
@@ -88,4 +95,32 @@ public class TipoServicioService implements ITipoServicioService {
         return bookPage;
     }
 
+    
+
+    @Override
+    public TipoServicio actualizar(int id, TipoServicio modelRecibido) {
+        TipoServicio model = modelRepository.findById(id).orElse(null);
+        if (model == null) {
+            throw new RecursoNoEncontradoExcepcion("No se encontro el id: " + id);
+        }
+        model.setCodigo(modelRecibido.getCodigo());
+        model.setDenominacion(modelRecibido.getDenominacion());
+        model.setDetalle(modelRecibido.getDetalle());
+        
+        return guardar(model);
+    }
+
+    @Override
+    public void eliminar(int id) {
+       TipoServicio tipoServicio = modelRepository.findById(id).orElse(null);
+
+       if(tipoServicio == null){
+           throw new RecursoNoEncontradoExcepcion("No se encontro el id: " + id);
+       }
+       tipoServicio.asEliminado();
+
+       modelRepository.save(tipoServicio);
+    }
+
 }
+ 

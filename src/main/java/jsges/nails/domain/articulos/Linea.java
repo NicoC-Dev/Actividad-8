@@ -1,8 +1,6 @@
 package jsges.nails.domain.articulos;
 
 import jakarta.persistence.*;
-import jsges.nails.DTO.articulos.LineaDTO;
-import jsges.nails.domain.TipoObjeto;
 import lombok.AllArgsConstructor;
 
 import lombok.Getter;
@@ -11,12 +9,13 @@ import lombok.Setter;
 
 
 
-@Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class Linea extends TipoObjeto {
+@NoArgsConstructor
+@Entity
+@Table
+public class Linea {
 
     
 
@@ -24,16 +23,24 @@ public class Linea extends TipoObjeto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(columnDefinition = "TEXT")
+    @Column
     private String denominacion;
+
+    @Column
+    private int codigo;
+
+    @Column
+    private String detalle;
 
     @Column
     private int estado;
 
-    @Column(columnDefinition = "TEXT")
-    String observacion;
+    @Column
+    private String observacion;
 
-    
+    public void asEliminado() {
+        this.setEstado(1);
+    }
 
    
 }

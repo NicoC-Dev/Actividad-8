@@ -18,7 +18,7 @@ public class ArticuloVentaMapper {
     private LineaRepository lineaRepository;
     public ArticuloVenta toEntity(ArticuloVentaDTO dto) {
         ArticuloVenta articuloVenta = new ArticuloVenta();
-        Linea linea = lineaRepository.findById(dto.id).orElse(null);
+        Linea linea = lineaRepository.findById(dto.getLinea_id()).orElse(null);
         articuloVenta.setId(dto.getId());
         articuloVenta.setDenominacion(dto.getDenominacion());
         articuloVenta.setLinea(linea);
@@ -32,6 +32,6 @@ public class ArticuloVentaMapper {
         articuloVentaDTO.setLinea_id(model.getLinea().getId());
         return articuloVentaDTO;
     }
-
+ 
     
 }

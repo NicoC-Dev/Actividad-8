@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
+public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
     @Query("select p from Cliente p  where p.estado=0 order by p.razonSocial")
     List<Cliente> buscarNoEliminados();

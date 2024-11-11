@@ -9,22 +9,26 @@ import java.util.List;
 
 public interface ITipoServicioService {
 
-    public List<TipoServicio> listar();
+    List<TipoServicio> listar();
 
-    public TipoServicio buscarPorId(Integer id);
+    TipoServicio buscarPorId(int id);
 
-    public TipoServicio guardar(TipoServicio model);
+    TipoServicio guardar(TipoServicio model);
 
-    public void eliminar(TipoServicio model);
+    void eliminar(TipoServicio model);
 
-    public List<TipoServicio> listar(String consulta);
+    TipoServicio actualizar(int id, TipoServicio dto);
 
-    public Page<TipoServicio> getTiposServicios(Pageable pageable);
+    List<TipoServicio> listar(String consulta);
 
-    public Page<TipoServicio> findPaginated(Pageable pageable,List<TipoServicio> tipoServicios);
+    Page<TipoServicio> getTiposServicios(Pageable pageable);
 
+    Page<TipoServicio> findPaginated(Pageable pageable,List<TipoServicio> tipoServicios);
+    
+    List<TipoServicio> buscar(String consulta);
 
-    public List<TipoServicio> buscar(String consulta);
+    TipoServicio newModel(TipoServicioDTO model);
 
-    public TipoServicio newModel(TipoServicioDTO model);
+    void eliminar(int id);
 }
+ 

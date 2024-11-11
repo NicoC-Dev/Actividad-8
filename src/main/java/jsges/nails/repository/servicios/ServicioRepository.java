@@ -1,5 +1,4 @@
 package jsges.nails.repository.servicios;
-import jsges.nails.domain.articulos.ArticuloVenta;
 import jsges.nails.domain.servicios.Servicio;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

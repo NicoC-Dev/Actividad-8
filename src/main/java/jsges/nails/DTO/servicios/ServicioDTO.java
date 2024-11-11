@@ -1,23 +1,28 @@
 package jsges.nails.DTO.servicios;
 
-import jsges.nails.DTO.Organizacion.ClienteDTO;
-import jsges.nails.domain.organizacion.Cliente;
+
 import jsges.nails.domain.servicios.ItemServicio;
 import jsges.nails.domain.servicios.Servicio;
+import lombok.Data;
 
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+
+
+@Data
 public class ServicioDTO{
 
-    public Integer id;
-    public Integer cliente;
-    public Timestamp fechaDocumento;
-    public Set<ItemServicioDTO> listaItems = new HashSet<>();
-    public Double total;
-    public String clienteRazonSocial;
+     
+    private long id;
+    private long cliente;
+    private Timestamp fechaDocumento;
+    private Set<ItemServicioDTO> listaItems = new HashSet<>();
+    private Double total;
+    private String clienteRazonSocial;
+    
     public ServicioDTO() {
 
     }

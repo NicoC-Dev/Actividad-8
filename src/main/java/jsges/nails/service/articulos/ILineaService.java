@@ -12,7 +12,7 @@ public interface ILineaService {
 
     List<Linea> listar();
 
-    Linea buscarPorId(Integer id);
+    Linea buscarPorId(long id);
 
     Linea guardar(Linea model);
 
@@ -31,11 +31,11 @@ public interface ILineaService {
 
     boolean existeLineaConDenominacion(String denominacion);
 
-    void marcarComoEliminado(Linea model);
+    void marcarComoEliminado(long id);
 
-    LineaDTO buscarDTOPorId(Integer id);
+    LineaDTO buscarDTOPorId(long id);
 
-    Linea actualizarLinea(Integer id, LineaDTO modelRecibido);
+    Linea actualizarLinea(long id, LineaDTO modelRecibido);
 
     Page<LineaDTO> findPaginated(PageRequest pageRequest, String consulta);
 }

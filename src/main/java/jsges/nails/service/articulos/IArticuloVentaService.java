@@ -12,13 +12,13 @@ public interface IArticuloVentaService {
 
     List<ArticuloVentaDTO> listar();
 
-    ArticuloVenta buscarPorId(Integer id);
+    ArticuloVenta buscarPorId(long id);
 
     ArticuloVentaDTO guardar(ArticuloVentaDTO dto);
 
-    ArticuloVentaDTO actualizar(int id, ArticuloVentaDTO dto);
+    ArticuloVentaDTO actualizar(long id, ArticuloVentaDTO dto);
 
-    void eliminar(int id);
+    void eliminar(long id);
 
     List<ArticuloVenta> listar(String consulta);
 

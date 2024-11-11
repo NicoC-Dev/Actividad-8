@@ -1,8 +1,14 @@
 package jsges.nails.DTO.servicios;
 
-import jsges.nails.DTO.TipoObjetoDTO;
+import lombok.Data;
 
-public class TipoServicioDTO extends TipoObjetoDTO {
-
+@Data
+public class TipoServicioDTO {
+    
+    private int id;
+    private int codigo;
+    private String denominacion;
+    private String detalle;
+    private int estado;
 
 }

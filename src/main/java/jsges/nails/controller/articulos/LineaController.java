@@ -1,15 +1,13 @@
 package jsges.nails.controller.articulos;
 
 import jsges.nails.DTO.articulos.LineaDTO;
+import jsges.nails.Mapper.LineaMapper;
 import jsges.nails.domain.articulos.Linea;
-import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
+import jsges.nails.repository.articulos.LineaRepository;
 import jsges.nails.service.articulos.ILineaService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,12 +18,15 @@ import java.util.List;
 @CrossOrigin(value="${path_cross}")
 public class LineaController {
 
-    private static final Logger logger = LoggerFactory.getLogger(LineaController.class);
-
     @Autowired
     private ILineaService modelService;
 
+    @Autowired
+    private LineaRepository modelRepository;
+
     
+    @Autowired
+    private LineaMapper mapper;
 
     @GetMapping("/lineas")
     public ResponseEntity<List<LineaDTO>> getAll() {
@@ -41,40 +42,32 @@ public class LineaController {
         
     }
 
-    @PostMapping("/linea")
-    public ResponseEntity<Linea> agregar(@RequestBody LineaDTO model) {
-        return modelService.existeLineaConDenominacion(model.getDenominacion()) ?
-               ResponseEntity.status(HttpStatus.CONFLICT).build() :
-               ResponseEntity.ok(modelService.newModel(model));
-        
-    }
-
-    @PutMapping("/lineaEliminar/{id}")
-    public ResponseEntity<Linea> eliminar(@PathVariable Integer id) {
-        Linea model = modelService.buscarPorId(id);
-        if (model == null) {
-            throw new RecursoNoEncontradoExcepcion("El id recibido no existe: " + id);
-        }
-        modelService.marcarComoEliminado(model);
-        return ResponseEntity.ok(model);
-    }
-
     @GetMapping("/linea/{id}")
     public ResponseEntity<LineaDTO> getPorId(@PathVariable Integer id) {
         LineaDTO model = modelService.buscarDTOPorId(id);
-        if (model == null) {
-            throw new RecursoNoEncontradoExcepcion("No se encontro el id: " + id);
-        }
         return ResponseEntity.ok(model);
+    }
+
+    @PostMapping("/linea")
+    public ResponseEntity<Linea> agregar(@RequestBody LineaDTO model) {
+
+        modelService.newModel(model);
+        
+        return ResponseEntity.ok(mapper.toEntity(model));
+        
+    }
+
+    @DeleteMapping("/lineaEliminar/{id}")
+    public ResponseEntity<Void> eliminar(@PathVariable long id) {
+        modelRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/linea/{id}")
     public ResponseEntity<Linea> actualizar(@PathVariable Integer id,
                                             @RequestBody LineaDTO modelRecibido) {
         Linea updatedModel = modelService.actualizarLinea(id, modelRecibido);
-        if (updatedModel == null) {
-            throw new RecursoNoEncontradoExcepcion("El id recibido no existe: " + id);
-        }
+        
         return ResponseEntity.ok(updatedModel);
     }
 }
