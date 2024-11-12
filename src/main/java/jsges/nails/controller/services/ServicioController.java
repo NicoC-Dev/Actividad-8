@@ -47,5 +47,13 @@ public class ServicioController {
 
         return modelService.RegistrearServicio(model);
     }
+
+    @DeleteMapping("/servicios/{id}")
+    public ResponseEntity<Void> eliminar(@PathVariable int id){
+        modelService.eliminar(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
 }
 

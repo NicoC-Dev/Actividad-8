@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class ServicioService implements IServicioService {
+    
 
     @Autowired
     private ServicioRepository modelRepository;
@@ -57,7 +58,7 @@ public class ServicioService implements IServicioService {
     }
 
     @Override
-    public ServicioDTO buscarPorId(Integer id) {
+    public ServicioDTO buscarPorId(int id) {
         Servicio servicio = modelRepository.findById(id).orElse(null);
         if (servicio == null) {
             throw new RecursoNoEncontradoExcepcion("No se encontro el id: " + id);
@@ -144,6 +145,17 @@ public class ServicioService implements IServicioService {
         }
         newModel.setTotal(total);
         return servicioGuardado;
+    }
+
+    @Override
+    public void eliminar(int id) {
+        Servicio model = modelRepository.findById(id).orElse(null);
+        if (model == null) {
+            throw new RecursoNoEncontradoExcepcion("No se encontro el id: " + id);
+            
+        }
+        model.setEstado(1);
+        guardar(model);
     }
 
 }
