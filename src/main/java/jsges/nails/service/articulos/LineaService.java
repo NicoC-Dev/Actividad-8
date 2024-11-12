@@ -32,11 +32,19 @@ public class LineaService implements ILineaService {
 
     @Override
     public Linea buscarPorId(long id) {
-        return modelRepository.findById(id).orElse(null);
+        Linea model = modelRepository.findById(id).orElse(null);
+        if(model == null){
+            throw new RecursoNoEncontradoExcepcion("No se encontro el id: " + id);
+        }
+
+        return model;
     }
 
     @Override
     public Linea guardar(Linea model) {
+        if(model == null){
+            throw new RecursoNoEncontradoExcepcion("Linea nula");
+        }
         return modelRepository.save(model);
     }
 

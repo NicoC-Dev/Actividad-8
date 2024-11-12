@@ -29,8 +29,8 @@ public class LineaController {
     private LineaMapper mapper;
 
     @GetMapping("/lineas")
-    public ResponseEntity<List<LineaDTO>> getAll() {
-        return ResponseEntity.ok(modelService.listarDTOs());
+    public ResponseEntity<List<Linea>> getAll() {
+        return ResponseEntity.ok(modelService.listar());
     }
 
     @GetMapping("/lineasPageQuery")
@@ -50,6 +50,9 @@ public class LineaController {
 
     @PostMapping("/linea")
     public ResponseEntity<Linea> agregar(@RequestBody LineaDTO model) {
+        if(model == null){
+            throw new NullPointerException("El modelo no puede ser nulo");
+        }
 
         modelService.newModel(model);
         
